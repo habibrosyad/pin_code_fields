@@ -1,7 +1,7 @@
 part of pin_code_fields;
 
 class DialogConfig {
-  /// title of the [AlertDialog] while pasting the code. Default to [Paste Code]
+  /// title of the [AlertDialog] while pasting the code. Default to null as user might don't want to include title.
   final String? dialogTitle;
 
   /// content of the [AlertDialog] while pasting the code. Default to ["Do you want to paste this code "]
@@ -10,8 +10,14 @@ class DialogConfig {
   /// Affirmative action text for the [AlertDialog]. Default to "Paste"
   final String? affirmativeText;
 
+  /// Affirmative action text color for the [AlertDialog]. Default to null, fallback to system default.
+  final Color? affirmativeTextColor;
+
   /// Negative action text for the [AlertDialog]. Default to "Cancel"
   final String? negativeText;
+
+  /// Negative action text color for the [AlertDialog]. Default to null, fallback to system default.
+  final Color? negativeTextColor;
 
   /// The default dialog theme, should it be iOS or other(including web and Android)
   final Platform platform;
@@ -19,23 +25,29 @@ class DialogConfig {
     this.dialogContent,
     this.dialogTitle,
     this.affirmativeText,
+    this.affirmativeTextColor,
     this.negativeText,
+    this.negativeTextColor,
     this.platform = Platform.other,
   });
 
   factory DialogConfig(
       {String? affirmativeText,
+      Color? affirmativeTextColor,
       String? dialogContent,
       String? dialogTitle,
       String? negativeText,
+      Color? negativeTextColor,
       Platform? platform}) {
     return DialogConfig._internal(
       affirmativeText: affirmativeText == null ? "Paste" : affirmativeText,
+      affirmativeTextColor: affirmativeTextColor,
       dialogContent: dialogContent == null
           ? "Do you want to paste this code "
           : dialogContent,
-      dialogTitle: dialogTitle == null ? "Paste Code" : dialogTitle,
+      dialogTitle: dialogTitle,
       negativeText: negativeText == null ? "Cancel" : negativeText,
+      negativeTextColor: negativeTextColor,
       platform: platform == null ? Platform.other : platform,
     );
   }

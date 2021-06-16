@@ -370,8 +370,6 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
         _dialogConfig.affirmativeText!.isNotEmpty);
     assert(_dialogConfig.negativeText != null &&
         _dialogConfig.negativeText!.isNotEmpty);
-    assert(_dialogConfig.dialogTitle != null &&
-        _dialogConfig.dialogTitle!.isNotEmpty);
     assert(_dialogConfig.dialogContent != null &&
         _dialogConfig.dialogContent!.isNotEmpty);
   }
@@ -624,7 +622,9 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
       useRootNavigator: true,
       builder: (context) => _dialogConfig.platform == Platform.iOS
           ? CupertinoAlertDialog(
-              title: Text(_dialogConfig.dialogTitle!),
+              title: _dialogConfig.dialogTitle != null
+                  ? Text(_dialogConfig.dialogTitle!)
+                  : null,
               content: RichText(
                 text: TextSpan(
                   text: _dialogConfig.dialogContent,
@@ -648,10 +648,9 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
               actions: _getActionButtons(formattedPastedText),
             )
           : AlertDialog(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10),
-              ),
-              title: Text(_dialogConfig.dialogTitle!),
+              title: _dialogConfig.dialogTitle != null
+                  ? Text(_dialogConfig.dialogTitle!)
+                  : null,
               content: RichText(
                 text: TextSpan(
                   text: _dialogConfig.dialogContent,
@@ -879,12 +878,18 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
     if (_dialogConfig.platform == Platform.iOS) {
       resultList.addAll([
         CupertinoDialogAction(
+          textStyle: _dialogConfig.negativeTextColor == null
+              ? null
+              : TextStyle(color: _dialogConfig.negativeTextColor),
           child: Text(_dialogConfig.negativeText!),
           onPressed: () {
             Navigator.of(context, rootNavigator: true).pop();
           },
         ),
         CupertinoDialogAction(
+          textStyle: _dialogConfig.affirmativeTextColor == null
+              ? null
+              : TextStyle(color: _dialogConfig.affirmativeTextColor),
           child: Text(_dialogConfig.affirmativeText!),
           onPressed: () {
             _textEditingController!.text = pastedText;
@@ -895,12 +900,22 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
     } else {
       resultList.addAll([
         TextButton(
+          style: _dialogConfig.negativeTextColor == null
+              ? null
+              : TextButton.styleFrom(
+                  primary: _dialogConfig.negativeTextColor,
+                ),
           child: Text(_dialogConfig.negativeText!),
           onPressed: () {
             Navigator.of(context, rootNavigator: true).pop();
           },
         ),
         TextButton(
+          style: _dialogConfig.affirmativeTextColor == null
+              ? null
+              : TextButton.styleFrom(
+                  primary: _dialogConfig.affirmativeTextColor,
+                ),
           child: Text(_dialogConfig.affirmativeText!),
           onPressed: () {
             _textEditingController!.text = pastedText;
