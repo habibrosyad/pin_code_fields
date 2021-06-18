@@ -270,13 +270,8 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
   late Animation<Offset> _offsetAnimation;
 
   late Animation<double> _cursorAnimation;
-  DialogConfig get _dialogConfig => widget.dialogConfig == null
-      ? DialogConfig()
-      : DialogConfig(
-          affirmativeText: widget.dialogConfig!.affirmativeText,
-          dialogContent: widget.dialogConfig!.dialogContent,
-          dialogTitle: widget.dialogConfig!.dialogTitle,
-          negativeText: widget.dialogConfig!.negativeText);
+  DialogConfig get _dialogConfig =>
+      widget.dialogConfig == null ? DialogConfig() : widget.dialogConfig!;
   PinTheme get _pinTheme => widget.pinTheme;
 
   Timer? _blinkDebounce;
@@ -878,18 +873,16 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
     if (_dialogConfig.platform == Platform.iOS) {
       resultList.addAll([
         CupertinoDialogAction(
-          textStyle: _dialogConfig.negativeTextColor == null
-              ? null
-              : TextStyle(color: _dialogConfig.negativeTextColor),
+          textStyle: _dialogConfig.negativeTextStyle
+              ?.copyWith(color: _dialogConfig.negativeTextColor),
           child: Text(_dialogConfig.negativeText!),
           onPressed: () {
             Navigator.of(context, rootNavigator: true).pop();
           },
         ),
         CupertinoDialogAction(
-          textStyle: _dialogConfig.affirmativeTextColor == null
-              ? null
-              : TextStyle(color: _dialogConfig.affirmativeTextColor),
+          textStyle: _dialogConfig.affirmativeTextStyle
+              ?.copyWith(color: _dialogConfig.affirmativeTextColor),
           child: Text(_dialogConfig.affirmativeText!),
           onPressed: () {
             _textEditingController!.text = pastedText;
@@ -900,22 +893,20 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
     } else {
       resultList.addAll([
         TextButton(
-          style: _dialogConfig.negativeTextColor == null
-              ? null
-              : TextButton.styleFrom(
-                  primary: _dialogConfig.negativeTextColor,
-                ),
+          style: TextButton.styleFrom(
+            primary: _dialogConfig.negativeTextColor,
+            textStyle: _dialogConfig.negativeTextStyle,
+          ),
           child: Text(_dialogConfig.negativeText!),
           onPressed: () {
             Navigator.of(context, rootNavigator: true).pop();
           },
         ),
         TextButton(
-          style: _dialogConfig.affirmativeTextColor == null
-              ? null
-              : TextButton.styleFrom(
-                  primary: _dialogConfig.affirmativeTextColor,
-                ),
+          style: TextButton.styleFrom(
+            primary: _dialogConfig.affirmativeTextColor,
+            textStyle: _dialogConfig.affirmativeTextStyle,
+          ),
           child: Text(_dialogConfig.affirmativeText!),
           onPressed: () {
             _textEditingController!.text = pastedText;
