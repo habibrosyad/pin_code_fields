@@ -484,9 +484,7 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
     if (!widget.enabled) {
       return _pinTheme.disabledColor;
     }
-    if (((_selectedIndex == index) ||
-            (_selectedIndex == index + 1 && index + 1 == widget.length)) &&
-        _focusNode!.hasFocus) {
+    if (_selectedIndex == index && _focusNode!.hasFocus) {
       return _pinTheme.selectedColor;
     } else if (_selectedIndex > index) {
       Color relevantActiveColor = _pinTheme.activeColor;
@@ -538,9 +536,7 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
     if (!widget.enabled) {
       return _pinTheme.disabledColor;
     }
-    if (((_selectedIndex == index) ||
-            (_selectedIndex == index + 1 && index + 1 == widget.length)) &&
-        _focusNode!.hasFocus) {
+    if (_selectedIndex == index && _focusNode!.hasFocus) {
       return _pinTheme.selectedFillColor;
     } else if (_selectedIndex > index) {
       return _pinTheme.activeFillColor;
