@@ -182,6 +182,9 @@ class PinCodeTextField extends StatefulWidget {
 
   final EdgeInsets scrollPadding;
 
+  /// Use custom keyboard, preventing system keyboard from appearing.
+  final bool useCustomKeyboard;
+
   PinCodeTextField({
     Key? key,
     required this.appContext,
@@ -233,6 +236,7 @@ class PinCodeTextField extends StatefulWidget {
     this.cursorHeight,
     this.hintCharacter,
     this.hintStyle,
+    this.useCustomKeyboard = false,
 
     /// Default for [AutofillGroup]
     this.onAutoFillDisposeAction = AutofillContextAction.commit,
@@ -673,7 +677,10 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
       controller: _textEditingController,
       focusNode: _focusNode,
       enabled: widget.enabled,
-      autofillHints: widget.enablePinAutofill && widget.enabled
+      readOnly: widget.useCustomKeyboard,
+      autofillHints: widget.enablePinAutofill &&
+              widget.enabled &&
+              !widget.useCustomKeyboard
           ? <String>[AutofillHints.oneTimeCode]
           : null,
       autofocus: widget.autoFocus,
